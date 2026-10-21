@@ -6,3 +6,4 @@
 
 pub mod allowlist;
 pub mod guardians;
+pub mod withdrawal_queue;
