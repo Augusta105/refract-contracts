@@ -4,4 +4,5 @@
 //! directly. Contracts map their own address type onto the `u64` handles used
 //! here.
 
+pub mod allowlist;
 pub mod guardians;
