@@ -17,9 +17,9 @@
 //! flow (self-governing), preventing instant delay-reduction attacks.
 //!
 //! =============================================================================
-//! Issue #121 — [High] Add a security-council veto path to cancel a queued
+//! Issue #121 — \[High\] Add a security-council veto path to cancel a queued
 //! governance-timelock action
-//! https://github.com/Refract-Protocol/refract-contracts/issues/121
+//! <https://github.com/Refract-Protocol/refract-contracts/issues/121>
 //!
 //! ─── PROBLEM ─────────────────────────────────────────────────────────────────
 //!
@@ -138,9 +138,10 @@
 //! Optional reason parameter:
 //! ```text
 //!   The issue notes an optional `reason: Symbol` parameter is "reasonable,
-//!   low-cost... but not required." Include it as Option<Symbol> for
+//!   low-cost... but not required." Include it as `Option<Symbol>` for
 //!   auditability without making it mandatory:
 //!
+//! ```text
 //!     pub fn veto(env: Env, caller: Address, proposal_id: u64,
 //!                 reason: Option<Symbol>) -> Result<(), TimelockError>
 //! ```

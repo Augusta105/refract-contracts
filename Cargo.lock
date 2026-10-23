@@ -1053,15 +1053,10 @@ dependencies = [
 name = "refract-backstop"
 version = "0.1.0"
 dependencies = [
- "refract-testutils",
- "soroban-sdk",
- "soroban-sdk",
-]
-
-[[package]]
-name = "refract-governance"
-version = "0.1.0"
-dependencies = [
+ "refract-backstop",
+ "refract-interfaces",
+ "refract-timelock",
+ "refract-vetoken",
  "soroban-sdk",
 ]
 
@@ -1069,6 +1064,7 @@ dependencies = [
 name = "refract-grants"
 version = "0.1.0"
 dependencies = [
+ "refract-interfaces",
  "refract-testutils",
  "soroban-sdk",
 ]
@@ -1078,20 +1074,7 @@ name = "refract-bounty"
 version = "0.1.0"
 dependencies = [
  "refract-testutils",
- "soroban-sdk",
-]
-
-[[pac
- "soroban-sdk",
-]
-
-[[package]]
-name = "refract-bounty"
-version = "0.1.0"
-dependencies = [
- "refract-testutils",
- "soroban-sdk",
- "soroban-sdk",
+ "soroban
  "soroban-sdk",
 ]
 
@@ -1099,10 +1082,8 @@ dependencies = [
 name = "refract-governance"
 version = "0.1.0"
 dependencies = [
- "soroban-sdk",
-]
-
-[[package]]
+ "proptest",
+ "refract-interfaces",
  "refract-testutils",
  "soroban-sdk",
 ]
@@ -1111,14 +1092,9 @@ dependencies = [
 name = "refract-bounty"
 version = "0.1.0"
 dependencies = [
+ "refract-interfaces",
  "refract-testutils",
  "soroban-sdk",
-]
-
-[[package]]
-name = "refract-governance"
-version = "0.1.0"
-dependencies = [
  "soroban-sdk",
 ]
 
@@ -1126,6 +1102,8 @@ dependencies = [
 name = "refract-grants"
 version = "0.1.0"
 dependencies = [
+ "refract-interfaces",
+ "refract-testutils",
  "soroban-sdk",
 ]
 
@@ -1139,6 +1117,17 @@ dependencies = [
 
 [[package]]
 name = "refract-governance"
+version = "0.1.0"
+dependencies = [
+ "refract-backstop",
+ "refract-interfaces",
+ "refract-timelock",
+ "refract-vetoken",
+ "soroban-sdk",
+]
+
+[[package]]
+name = "refract-grants"
 version = "0.1.0"
 dependencies = [
  "soroban-sdk",
@@ -1151,6 +1140,48 @@ dependencies = [
  "refract-oracle",
  "refract-policy",
  "refract-pool",
+ "soroban-sdk",
+]
+
+[[package]]
+name = "refract-interfaces"
+version = "0.1.0"
+dependencies = [
+ "soroban-sdk",
+]
+
+[[package]]
+name = "refract-multisig"
+version = "0.1.0"
+dependencies = [
+ "soroban-sdk",
+]
+
+[[package]]
+name = "refract-oracle"
+version = "0.1.0"
+dependencies = [
+ "soroban-sdk",
+]
+
+[[pac
+ "soroban-sdk",
+]
+
+[[package]]
+name = "refract-incident-response"
+version = "0.1.0"
+dependencies = [
+ "refract-oracle",
+ "refract-policy",
+ "refract-pool",
+ "soroban-sdk",
+]
+
+[[package]]
+name = "refract-interfaces"
+version = "0.1.0"
+dependencies = [
  "soroban-sdk",
 ]
 
@@ -1189,14 +1220,18 @@ name = "refract-pool"
 version = "0.1.0"
 dependencies = [
  "proptest",
+ "refract-backstop",
+ "refract-interfaces",
  "refract-oracle",
  "refract-policy",
  "soroban-sdk",
 ]
 
 [[package]]
- "refract-testutils",
- "soroban-sdk",
+ "refract-backstop",
+ "refract-interfaces",
+ "refract-oracle",
+ "refract-policy",
  "soroban-sdk",
 name = "refract-timelock"
 version = "0.1.0"
@@ -1208,8 +1243,19 @@ dependencies = [
 name = "refract-treasury"
 version = "0.1.0"
 dependencies = [
- "refract-testutils",
+ "refract-backstop",
+ "refract-interfaces",
+ "refract-oracle",
+ "refract-policy",
  "soroban-sdk",
+]
+
+[[package]]
+name = "refract-timelock"
+version = "0.1.0"
+dependencies = [
+ "soroban-sdk",
+]
  "soroban-sdk",
 ]
 
@@ -1217,6 +1263,11 @@ dependencies = [
 name = "refract-vetoken"
 version = "0.1.0"
 dependencies = [
+ "refract-backstop",
+ "refract-interfaces",
+ "refract-testutils",
+ "soroban-sdk",
+ "soroban-sdk",
  "soroban-sdk",
 ]
 
