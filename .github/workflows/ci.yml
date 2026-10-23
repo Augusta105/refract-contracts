@@ -46,6 +46,9 @@ jobs:
       - name: SDK upgrade verification gate
         run: python3 scripts/verify_sdk_upgrade.py
 
+      - name: Script unit tests (contract_state snapshot/reconcile)
+        run: python3 -m unittest discover -s scripts/tests -v
+
   # Issue #221: Soroban CPU/memory budgets for backstop, bounty, grants and
   # treasury. Fails if any entrypoint exceeds its ceiling in
   # resource_budgets.json; the diff table goes to the job summary.
