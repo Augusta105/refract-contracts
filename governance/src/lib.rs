@@ -13,7 +13,7 @@
 //!   voting power to a delegatee, which cannot itself have delegated onward.
 //! * **Proposal threshold** — a minimum token balance required to create a
 //!   proposal, preventing spam.
-//! * **Quorum** — `quorum_bps` of `total_supply` (from the token) must
+//! * **Quorum** — `quorum_bps` of the configured `total_supply` must
 //!   participate (for + against) for the proposal to be valid.
 //! * **Execution** — after the voting period ends, a successful proposal
 //!   is forwarded to the timelock via `queue`, then the timelock executes
@@ -30,8 +30,15 @@
 //! ```
 
 #![no_std]
+// clippy.toml bans unwrap/expect, but soroban's #[contract]/#[contractimpl]
+// macros emit unwrap() in the test client they generate whenever
+// soroban-sdk/testutils is enabled anywhere in the workspace build, so the
+// lint cannot pass `cargo clippy --all-targets`. The no-unwrap rule for
+// contract code is enforced by scripts/check_soroban_footguns.py instead.
+#![allow(clippy::disallowed_methods)]
 use soroban_sdk::{
-    contract, contracterror, contractimpl, contracttype, token, Address, Env, Map, Symbol, Val, Vec,
+    contract, contracterror, contractimpl, contracttype, token, Address, Env, IntoVal, Symbol, Val,
+    Vec,
 };
 
 // ── Errors ────────────────────────────────────────────────────────────────────
@@ -120,6 +127,10 @@ pub struct GovernorConfig {
     pub quorum_bps: u32,
     /// Minimum token balance required to submit a proposal.
     pub proposal_threshold: i128,
+    /// Total voting supply used as the quorum base. SEP-41 tokens do not
+    /// expose a total supply, so it is configured here and kept current via
+    /// `set_config`.
+    pub total_supply: i128,
 }
 
 // ── Storage Keys ──────────────────────────────────────────────────────────────
@@ -190,7 +201,11 @@ impl RefractGovernor {
     }
 
     /// Wire in the timelock contract address.  Admin-only.
-    pub fn set_timelock(env: Env, caller: Address, timelock: Address) -> Result<(), GovernanceError> {
+    pub fn set_timelock(
+        env: Env,
+        caller: Address,
+        timelock: Address,
+    ) -> Result<(), GovernanceError> {
         Self::require_admin(&env, &caller)?;
         env.storage().instance().set(&DataKey::Timelock, &timelock);
         env.events()
@@ -238,11 +253,7 @@ impl RefractGovernor {
         }
 
         let now = env.ledger().timestamp();
-        let id: u64 = env
-            .storage()
-            .instance()
-            .get(&DataKey::NextId)
-            .unwrap_or(0);
+        let id: u64 = env.storage().instance().get(&DataKey::NextId).unwrap_or(0);
 
         let proposal = ProposalState {
             proposer: proposer.clone(),
@@ -262,9 +273,7 @@ impl RefractGovernor {
         env.storage()
             .persistent()
             .set(&DataKey::Proposal(id), &proposal);
-        env.storage()
-            .instance()
-            .set(&DataKey::NextId, &(id + 1));
+        env.storage().instance().set(&DataKey::NextId, &(id + 1));
 
         env.events().publish(
             (Symbol::new(&env, "gov_proposed"), id),
@@ -362,11 +371,9 @@ impl RefractGovernor {
         // Total participating weight.
         let total_votes = proposal.votes_for + proposal.votes_against;
 
-        // Total token supply for quorum calculation.
-        let total_supply = token::Client::new(&env, &config.token).total_supply();
-
-        // Quorum: total_votes must be >= quorum_bps/10000 of total_supply.
-        let quorum_required = total_supply * (config.quorum_bps as i128) / 10_000;
+        // Quorum: total_votes must be >= quorum_bps/10000 of the configured
+        // total voting supply.
+        let quorum_required = config.total_supply * (config.quorum_bps as i128) / 10_000;
         let quorum_met = total_votes >= quorum_required;
         let majority_for = proposal.votes_for > proposal.votes_against;
 
@@ -418,11 +425,7 @@ impl RefractGovernor {
             tl_args.push_back(proposal.function.into_val(&env));
             tl_args.push_back(proposal.args.into_val(&env));
             tl_args.push_back(eta.into_val(&env));
-            env.invoke_contract::<Val>(
-                &timelock,
-                &Symbol::new(&env, "queue"),
-                tl_args,
-            );
+            env.invoke_contract::<Val>(&timelock, &Symbol::new(&env, "queue"), tl_args);
         }
         // If no timelock is set the proposal is marked Queued and the
         // caller should call `execute` directly.
