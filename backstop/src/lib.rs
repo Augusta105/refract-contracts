@@ -212,8 +212,6 @@ impl RefractBackstop {
         Self::load_config(&env)
     }
 
-    /// Mirror of `RefractPool::_calc_shares`: first depositor gets 1:1 shares,
-    /// subsequent depositors get shares proportional to the current share price.
     fn calc_shares(amount: i128, total_shares: i128, total_capital: i128) -> i128 {
         if total_shares == 0 || total_capital == 0 {
             amount
@@ -222,8 +220,6 @@ impl RefractBackstop {
         }
     }
 
-    /// Mirror of `RefractPool::_quote_withdrawal`: value of `shares` at the
-    /// current share price.
     fn quote_withdrawal(shares: i128, total_shares: i128, total_capital: i128) -> i128 {
         if total_shares == 0 {
             0

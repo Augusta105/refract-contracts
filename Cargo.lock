@@ -1053,6 +1053,7 @@ dependencies = [
 name = "refract-backstop"
 version = "0.1.0"
 dependencies = [
+ "refract-testutils",
  "soroban-sdk",
 ]
 
@@ -1060,6 +1061,8 @@ dependencies = [
 name = "refract-bounty"
 version = "0.1.0"
 dependencies = [
+ "refract-testutils",
+ "soroban-sdk",
  "soroban-sdk",
 ]
 
@@ -1074,7 +1077,7 @@ dependencies = [
 name = "refract-grants"
 version = "0.1.0"
 dependencies = [
- "refract-timelock",
+ "refract-testutils",
  "soroban-sdk",
 ]
 
@@ -1103,6 +1106,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "refract-params"
+version = "0.1.0"
+dependencies = [
+ "refract-testutils",
+ "soroban-sdk",
+]
+
+[[package]]
 name = "refract-policy"
 version = "0.1.0"
 dependencies = [
@@ -1121,6 +1132,8 @@ dependencies = [
 ]
 
 [[package]]
+ "refract-testutils",
+ "soroban-sdk",
 name = "refract-timelock"
 version = "0.1.0"
 dependencies = [
@@ -1131,6 +1144,24 @@ dependencies = [
 name = "refract-treasury"
 version = "0.1.0"
 dependencies = [
+name = "refract-testutils"
+version = "0.1.0"
+dependencies = [
+ "soroban-sdk",
+]
+
+[[package]]
+name = "refract-timelock"
+version = "0.1.0"
+dependencies = [
+ "soroban-sdk",
+]
+
+[[package]]
+name = "refract-treasury"
+version = "0.1.0"
+dependencies = [
+
  "soroban-sdk",
 ]
 
