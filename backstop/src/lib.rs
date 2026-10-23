@@ -6,6 +6,9 @@ pub mod curve;
 
 use curve::{premium_cut, utilization_bps, PremiumCurve};
 
+#[cfg(kani)]
+mod kani_proofs;
+
 /// Basis-point denominator used for premium-share configuration.
 const BPS_DENOM: i128 = 10_000;
 
